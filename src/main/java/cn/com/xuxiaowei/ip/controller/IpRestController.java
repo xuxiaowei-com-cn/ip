@@ -13,9 +13,10 @@ import java.util.Map;
  * @since 0.0.1
  */
 @RestController
-public class IndexRestController {
+@RequestMapping("/ip")
+public class IpRestController {
 
-	@RequestMapping("/ip")
+	@RequestMapping
 	public Map<String, Object> ip(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<>(8);
 
