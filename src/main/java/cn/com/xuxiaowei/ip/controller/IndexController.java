@@ -16,7 +16,14 @@ public class IndexController {
 
 	@RequestMapping
 	public String index(HttpServletRequest request, HttpServletResponse response) {
-		return "forward:/ip";
+		String uri = "redirect:/ip";
+
+		String queryString = request.getQueryString();
+		if (queryString != null) {
+			uri += "?" + queryString;
+		}
+
+		return uri;
 	}
 
 }
