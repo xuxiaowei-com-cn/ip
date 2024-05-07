@@ -1,5 +1,6 @@
 stages:
   - build
+  - sync
 
 variables:
   DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$VERSION-$CI_PIPELINE_ID
@@ -80,3 +81,6 @@ build:deploy:
   environment: production
   tags:
     - lighthouse-docker
+
+include:
+  - /sync.yml
