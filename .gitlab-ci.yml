@@ -38,7 +38,7 @@ build:docker:
       artifacts: true
   image: docker:cli
   variables:
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$VERSION-$CI_PIPELINE_ID
     GROUP_ID: cn.com.xuxiaowei.ip
     ARTIFACT_ID: ip
     VERSION: 0.0.1-SNAPSHOT
