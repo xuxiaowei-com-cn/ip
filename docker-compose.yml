@@ -6,7 +6,12 @@ services:
       - ${IP_PORT:-61450}:${IP_PORT:-61450}
     volumes:
       - /ip/logs:/logs
+      - /ip/config:/config
     environment:
       - IP_PORT=${IP_PORT:-61450}
+      - IP_ENABLE_ASN=${IP_ENABLE_ASN:-false}
+      - IP_ASN_DATABASE=${IP_ASN_DATABASE:-}
+      - IP_ENABLE_CITY=${IP_ENABLE_CITY:-false}
+      - IP_CITY_DATABASE=${IP_CITY_DATABASE:-}
       - APP_ARGS=${IP_APP_ARGS:-}
     container_name: ip

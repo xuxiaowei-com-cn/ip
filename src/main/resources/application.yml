@@ -12,3 +12,9 @@ server:
 spring:
   application:
     name: ip
+
+ip:
+  enable-asn: ${IP_ENABLE_ASN:false}
+  asn-database: ${IP_ASN_DATABASE:}
+  enable-city: ${IP_ENABLE_CITY:false}
+  city-database: ${IP_CITY_DATABASE:}
