@@ -1,6 +1,13 @@
 stages:
   - build
 
+variables:
+  DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$VERSION-$CI_PIPELINE_ID
+  GROUP_ID: cn.com.xuxiaowei.ip
+  ARTIFACT_ID: ip
+  VERSION: 0.0.1-SNAPSHOT
+  CI_JAVA_OPTS: -Xms256m -Xmx512m
+
 build:
   stage: build
   image: maven:3.6.3-openjdk-17
@@ -37,12 +44,6 @@ build:docker:
     - job: build
       artifacts: true
   image: docker:cli
-  variables:
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$VERSION-$CI_PIPELINE_ID
-    GROUP_ID: cn.com.xuxiaowei.ip
-    ARTIFACT_ID: ip
-    VERSION: 0.0.1-SNAPSHOT
-    CI_JAVA_OPTS: -Xms256m -Xmx512m
   services:
     - docker:dind
   before_script:
