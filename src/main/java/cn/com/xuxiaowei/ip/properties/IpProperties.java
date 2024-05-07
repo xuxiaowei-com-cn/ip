@@ -23,4 +23,6 @@ public class IpProperties {
 
 	private String cityDatabase;
 
+	private boolean contentNegotiation;
+
 }

@@ -18,3 +18,4 @@ ip:
   asn-database: ${IP_ASN_DATABASE:}
   enable-city: ${IP_ENABLE_CITY:false}
   city-database: ${IP_CITY_DATABASE:}
+  content-negotiation: ${IP_CONTENT_NEGOTIATION:false}
