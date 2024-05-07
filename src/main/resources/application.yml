@@ -1,0 +1,6 @@
+server:
+  port: ${IP_PORT:61450}
+
+spring:
+  application:
+    name: ip
