@@ -174,6 +174,8 @@ public class IpRestController {
 							map.put("countryGeoNameId", country.getGeoNameId());
 							map.put("countryName", country.getName());
 
+							map.put("isInEuropeanUnion", country.isInEuropeanUnion());
+
 							List<String> subdivisionIsoCodes = new ArrayList<>();
 							List<Long> subdivisionGeoNameIds = new ArrayList<>();
 							List<String> subdivisionNames = new ArrayList<>();
