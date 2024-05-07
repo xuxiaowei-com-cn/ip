@@ -7,6 +7,6 @@ services:
     volumes:
       - /ip/logs:/logs
     environment:
-      - IP_PORT=${IP_PORT:-45450}
+      - IP_PORT=${IP_PORT:-61450}
       - APP_ARGS=${IP_APP_ARGS:-}
     container_name: ip
