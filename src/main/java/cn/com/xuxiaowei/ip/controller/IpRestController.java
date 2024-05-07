@@ -45,12 +45,14 @@ public class IpRestController {
 	}
 
 	@RequestMapping
-	public Map<String, Object> ip(HttpServletRequest request, HttpServletResponse response) {
+	public Map<String, Object> ip(HttpServletRequest request, HttpServletResponse response, String host) {
 		Map<String, Object> map = new HashMap<>(8);
 
-		String remoteHost = request.getRemoteHost();
+		if (!StringUtils.hasText(host)) {
+			host = request.getRemoteHost();
+		}
 
-		map.put("remoteHost", remoteHost);
+		map.put("host", host);
 
 		if (ipProperties.isEnableAsn()) {
 			String asnDatabase = ipProperties.getAsnDatabase();
@@ -78,7 +80,7 @@ public class IpRestController {
 
 					InetAddress ipAddress = null;
 					try {
-						ipAddress = InetAddress.getByName(remoteHost);
+						ipAddress = InetAddress.getByName(host);
 					}
 					catch (UnknownHostException e) {
 						log.error("ASN 解析地址 异常：", e);
@@ -140,7 +142,7 @@ public class IpRestController {
 
 					InetAddress ipAddress = null;
 					try {
-						ipAddress = InetAddress.getByName(remoteHost);
+						ipAddress = InetAddress.getByName(host);
 					}
 					catch (UnknownHostException e) {
 						log.error("IP 城市匹配 解析地址 异常：", e);
