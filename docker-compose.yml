@@ -1,0 +1,12 @@
+services:
+  ip:
+    image: ${CI_REGISTRY_IMAGE}:${VERSION}-${CI_PIPELINE_ID}
+    restart: always
+    ports:
+      - ${IP_PORT:-61450}:${IP_PORT:-61450}
+    volumes:
+      - /ip/logs:/logs
+    environment:
+      - IP_PORT=${IP_PORT:-45450}
+      - APP_ARGS=${IP_APP_ARGS:-}
+    container_name: ip
