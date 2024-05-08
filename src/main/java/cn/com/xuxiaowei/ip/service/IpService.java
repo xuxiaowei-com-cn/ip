@@ -12,7 +12,7 @@ public interface IpService {
 
 	/**
 	 * 根据 IP 或 域名 查询地理信息
-	 * @param host 要查询的 IP 或 域名
+	 * @param host 要查询的 IP 或 域名，为 空 或者是 ? 时，将使用请求 IP
 	 * @return 返回 IP 或 域名 查询地理信息
 	 */
 	ResponseVo ip(String host);

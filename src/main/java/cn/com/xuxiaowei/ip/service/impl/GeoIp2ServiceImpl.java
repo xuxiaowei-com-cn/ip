@@ -1,5 +1,6 @@
 package cn.com.xuxiaowei.ip.service.impl;
 
+import cn.com.xuxiaowei.ip.filter.RequestContextFilter;
 import cn.com.xuxiaowei.ip.properties.IpProperties;
 import cn.com.xuxiaowei.ip.service.GeoIp2Service;
 import cn.com.xuxiaowei.ip.vo.ResponseVo;
@@ -13,10 +14,14 @@ import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Subdivision;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +35,7 @@ import java.util.List;
  *
  * @author xuxiaowei
  * @since 0.0.1
+ * @see RequestContextFilter
  */
 @Slf4j
 @Service
@@ -44,12 +50,28 @@ public class GeoIp2ServiceImpl implements GeoIp2Service {
 
 	/**
 	 * 根据 IP 或 域名 查询地理信息
-	 * @param host 要查询的 IP 或 域名
+	 * @param host 要查询的 IP 或 域名，为 空 或者是 ? 时，将使用请求 IP
 	 * @return 返回 IP 或 域名 查询地理信息
 	 */
 	@Override
 	@SuppressWarnings("AlibabaMethodTooLong")
 	public ResponseVo ip(String host) {
+
+		if (!StringUtils.hasText(host) || "?".equals(host)) {
+
+			// 从请求线程储存中获取请求
+			RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+			// 清理
+			RequestContextHolder.resetRequestAttributes();
+
+			// 转换对象
+			ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+			// 获取 HTTP 请求
+			HttpServletRequest request = servletRequestAttributes.getRequest();
+
+			host = request.getRemoteHost();
+		}
+
 		ResponseVo responseVo = new ResponseVo();
 
 		responseVo.setHost(host);
