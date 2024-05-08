@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 请求头
+ *
  * @author xuxiaowei
  * @since 0.0.1
  */
