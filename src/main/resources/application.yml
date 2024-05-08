@@ -27,6 +27,11 @@ logging:
       max-history: 365
       file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}.%i.log.gz
 
+springdoc:
+  swagger-ui:
+    default-models-expand-depth: 20
+    default-model-expand-depth: 20
+
 ip:
   enable-asn: ${IP_ENABLE_ASN:false}
   asn-database: ${IP_ASN_DATABASE:}

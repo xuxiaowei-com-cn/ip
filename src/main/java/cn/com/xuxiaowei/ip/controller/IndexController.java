@@ -1,7 +1,10 @@
 package cn.com.xuxiaowei.ip.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author xuxiaowei
@@ -11,16 +14,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class IndexController {
 
-	// @RequestMapping
-	// public String index(HttpServletRequest request, HttpServletResponse response) {
-	// String uri = "redirect:/ip";
-	//
-	// String queryString = request.getQueryString();
-	// if (queryString != null) {
-	// uri += "?" + queryString;
-	// }
-	//
-	// return uri;
-	// }
+	@RequestMapping
+	public String index(HttpServletRequest request, HttpServletResponse response) {
+		return "redirect:/swagger-ui/index.html";
+	}
 
 }
