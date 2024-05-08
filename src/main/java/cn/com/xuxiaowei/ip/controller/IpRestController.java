@@ -1,6 +1,7 @@
 package cn.com.xuxiaowei.ip.controller;
 
 import cn.com.xuxiaowei.ip.properties.IpProperties;
+import cn.com.xuxiaowei.ip.vo.ResponseVo;
 import com.maxmind.db.CHMCache;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.DatabaseReader;
@@ -45,14 +46,14 @@ public class IpRestController {
 	}
 
 	@RequestMapping
-	public Map<String, Object> ip(HttpServletRequest request, HttpServletResponse response, String host) {
-		Map<String, Object> map = new HashMap<>(8);
+	public ResponseVo ip(HttpServletRequest request, HttpServletResponse response, String host) {
+		ResponseVo responseVo = new ResponseVo();
 
 		if (!StringUtils.hasText(host)) {
 			host = request.getRemoteHost();
 		}
 
-		map.put("host", host);
+		responseVo.setHost(host);
 
 		if (ipProperties.isEnableAsn()) {
 			String asnDatabase = ipProperties.getAsnDatabase();
@@ -103,9 +104,9 @@ public class IpRestController {
 							String autonomousSystemOrganization = asnResponse.getAutonomousSystemOrganization();
 							Long autonomousSystemNumber = asnResponse.getAutonomousSystemNumber();
 
-							map.put("network", network.toString());
-							map.put("systemOrganization", autonomousSystemOrganization);
-							map.put("systemNumber", autonomousSystemNumber);
+							responseVo.setNetwork(network.toString());
+							responseVo.setSystemOrganization(autonomousSystemOrganization);
+							responseVo.setSystemNumber(autonomousSystemNumber);
 						}
 					}
 				}
@@ -166,15 +167,15 @@ public class IpRestController {
 							List<Subdivision> subdivisions = cityResponse.getSubdivisions();
 							City city = cityResponse.getCity();
 
-							map.put("continentCode", continent.getCode());
-							map.put("continentGeoNameId", continent.getGeoNameId());
-							map.put("continentName", continent.getName());
+							responseVo.setContinentCode(continent.getCode());
+							responseVo.setContinentGeoNameId(continent.getGeoNameId());
+							responseVo.setContinentName(continent.getName());
 
-							map.put("countryIsoCode", country.getIsoCode());
-							map.put("countryGeoNameId", country.getGeoNameId());
-							map.put("countryName", country.getName());
+							responseVo.setCountryIsoCode(country.getIsoCode());
+							responseVo.setCountryGeoNameId(country.getGeoNameId());
+							responseVo.setCountryName(country.getName());
 
-							map.put("isInEuropeanUnion", country.isInEuropeanUnion());
+							responseVo.setInEuropeanUnion(country.isInEuropeanUnion());
 
 							List<String> subdivisionIsoCodes = new ArrayList<>();
 							List<Long> subdivisionGeoNameIds = new ArrayList<>();
@@ -185,12 +186,12 @@ public class IpRestController {
 								subdivisionNames.add(subdivision.getName());
 							}
 
-							map.put("subdivisionIsoCodes", subdivisionIsoCodes);
-							map.put("subdivisionGeoNameIds", subdivisionGeoNameIds);
-							map.put("subdivisionNames", subdivisionNames);
+							responseVo.setSubdivisionIsoCodes(subdivisionIsoCodes);
+							responseVo.setSubdivisionGeoNameIds(subdivisionGeoNameIds);
+							responseVo.setSubdivisionNames(subdivisionNames);
 
-							map.put("cityGeoNameId", city.getGeoNameId());
-							map.put("cityName", city.getName());
+							responseVo.setCityGeoNameId(city.getGeoNameId());
+							responseVo.setCityName(city.getName());
 						}
 					}
 				}
@@ -201,7 +202,7 @@ public class IpRestController {
 			}
 		}
 
-		return map;
+		return responseVo;
 	}
 
 }
