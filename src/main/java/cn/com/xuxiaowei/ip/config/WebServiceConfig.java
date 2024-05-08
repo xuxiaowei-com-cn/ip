@@ -1,5 +1,6 @@
 package cn.com.xuxiaowei.ip.config;
 
+import cn.com.xuxiaowei.ip.service.ConfigService;
 import cn.com.xuxiaowei.ip.service.HeaderService;
 import cn.com.xuxiaowei.ip.service.IpService;
 import jakarta.xml.ws.Endpoint;
@@ -27,6 +28,8 @@ public class WebServiceConfig {
 
 	private HeaderService headerService;
 
+	private ConfigService configService;
+
 	@Autowired
 	public void setIpService(IpService ipService) {
 		this.ipService = ipService;
@@ -35,6 +38,11 @@ public class WebServiceConfig {
 	@Autowired
 	public void setHeaderService(HeaderService headerService) {
 		this.headerService = headerService;
+	}
+
+	@Autowired
+	public void setConfigService(ConfigService configService) {
+		this.configService = configService;
 	}
 
 	/**
@@ -83,6 +91,21 @@ public class WebServiceConfig {
 		headerServiceEndpointImpl.getOutInterceptors().add(new LoggingOutInterceptor());
 
 		return headerServiceEndpointImpl;
+	}
+
+	/**
+	 * 配置 WebService 接口
+	 * @return 返回 公共 WebService 桶 {@link Endpoint}
+	 */
+	@Bean
+	public Endpoint configServiceEndpoint() {
+		EndpointImpl configServiceEndpointImpl = new EndpointImpl(configService);
+		configServiceEndpointImpl.publish("/configService");
+
+		configServiceEndpointImpl.getInInterceptors().add(new LoggingInInterceptor());
+		configServiceEndpointImpl.getOutInterceptors().add(new LoggingOutInterceptor());
+
+		return configServiceEndpointImpl;
 	}
 
 }
