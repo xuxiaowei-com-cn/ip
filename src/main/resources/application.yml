@@ -8,6 +8,9 @@ server:
       remote-ip-header: X-Forwarded-For
       # 用于覆盖原始端口值的HTTP标头的名称。
       port-header: X-Forwarded-Proto
+  compression:
+    # 开启压缩
+    enabled: true
 
 spring:
   application:
