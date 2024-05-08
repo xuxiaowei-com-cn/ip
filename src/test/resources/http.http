@@ -1,0 +1,21 @@
+### 获取当前请求的IP地理信息：返回数据内容使用默认类型：JSON
+GET http://127.0.0.1:61450/ip
+
+### 获取当前请求的IP地理信息：返回XML类型的数据
+GET http://127.0.0.1:61450/ip
+Accept: application/xml
+
+### 获取当前请求的IP地理信息：返回JSON类型的数据
+GET http://127.0.0.1:61450/ip
+Accept: application/json
+
+### 获取指定IP的地理信息：返回数据内容使用默认类型：JSON
+GET http://127.0.0.1:61450/ip?host=119.165.180.0
+
+### 获取指定IP的地理信息：返回XML类型的数据
+GET http://127.0.0.1:61450/ip?host=119.165.180.0
+Accept: application/xml
+
+### 获取指定IP的地理信息：返回JSON类型的数据
+GET http://127.0.0.1:61450/ip?host=119.165.180.0
+Accept: application/json
