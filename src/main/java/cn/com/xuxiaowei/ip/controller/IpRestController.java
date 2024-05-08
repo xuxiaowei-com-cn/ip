@@ -1,17 +1,7 @@
 package cn.com.xuxiaowei.ip.controller;
 
-import cn.com.xuxiaowei.ip.properties.IpProperties;
+import cn.com.xuxiaowei.ip.service.GeoIp2Service;
 import cn.com.xuxiaowei.ip.vo.ResponseVo;
-import com.maxmind.db.CHMCache;
-import com.maxmind.db.Network;
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.AsnResponse;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.Subdivision;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,13 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * IP
  *
@@ -44,11 +27,11 @@ import java.util.List;
 @RequestMapping("/ip")
 public class IpRestController {
 
-	private IpProperties ipProperties;
+	private GeoIp2Service geoIp2Service;
 
 	@Autowired
-	public void setIpProperties(IpProperties ipProperties) {
-		this.ipProperties = ipProperties;
+	public void setGeoIp2Service(GeoIp2Service geoIp2Service) {
+		this.geoIp2Service = geoIp2Service;
 	}
 
 	/**
@@ -58,168 +41,17 @@ public class IpRestController {
 	 * @param host 要查询的 IP 或 域名，如果为空时则查询当前请求的IP地理信息
 	 * @return 返回 IP 地理信息
 	 */
-	@SuppressWarnings("AlibabaMethodTooLong")
 	@Operation(summary = "查询 IP 地理信息", description = "根据用户参数中的 IP、域名 或 用户当前 IP 获取 大陆、国家、省、市、网络运营商、网段、是否为欧盟国家等")
 	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseVo ip(HttpServletRequest request, HttpServletResponse response,
 			@Parameter(example = "119.165.180.222",
 					description = "IP或域名，如果为空时则查询当前请求的IP地理信息") @RequestParam(required = false) String host) {
-		ResponseVo responseVo = new ResponseVo();
 
 		if (!StringUtils.hasText(host)) {
 			host = request.getRemoteHost();
 		}
 
-		responseVo.setHost(host);
-
-		if (ipProperties.isEnableAsn()) {
-			String asnDatabase = ipProperties.getAsnDatabase();
-			if (StringUtils.hasText(asnDatabase)) {
-				File database = new File(asnDatabase);
-
-				// This reader object should be reused across lookups as creation of it is
-				// expensive.
-				// DatabaseReader reader = new DatabaseReader.Builder(database).build();
-
-				// If you want to use caching at the cost of a small (~2MB) memory
-				// overhead:
-				// new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
-				DatabaseReader reader = null;
-				try {
-					reader = new DatabaseReader.Builder(database).locales(List.of("zh-CN"))
-						.withCache(new CHMCache())
-						.build();
-				}
-				catch (IOException e) {
-					log.error("创建 ASN 读取器 异常：", e);
-				}
-
-				if (reader != null) {
-
-					InetAddress ipAddress = null;
-					try {
-						ipAddress = InetAddress.getByName(host);
-					}
-					catch (UnknownHostException e) {
-						log.error("ASN 解析地址 异常：", e);
-					}
-
-					if (ipAddress != null) {
-						AsnResponse asnResponse = null;
-						try {
-							asnResponse = reader.asn(ipAddress);
-						}
-						catch (IOException e) {
-							log.error("ASN IOException 异常：", e);
-						}
-						catch (GeoIp2Exception e) {
-							log.error("ASN GeoIp2Exception 异常：", e);
-						}
-
-						if (asnResponse != null) {
-							Network network = asnResponse.getNetwork();
-							String autonomousSystemOrganization = asnResponse.getAutonomousSystemOrganization();
-							Long autonomousSystemNumber = asnResponse.getAutonomousSystemNumber();
-
-							responseVo.setNetwork(network.toString());
-							responseVo.setSystemOrganization(autonomousSystemOrganization);
-							responseVo.setSystemNumber(autonomousSystemNumber);
-						}
-					}
-				}
-
-			}
-			else {
-				log.warn("虽然已开启 ASN，但是 ASN 数据库为空，无法使用 ASN");
-			}
-		}
-
-		if (ipProperties.isEnableCity()) {
-			String cityDatabase = ipProperties.getCityDatabase();
-			if (StringUtils.hasText(cityDatabase)) {
-				File database = new File(cityDatabase);
-
-				// This reader object should be reused across lookups as creation of it is
-				// expensive.
-				// DatabaseReader reader = new DatabaseReader.Builder(database).build();
-
-				// If you want to use caching at the cost of a small (~2MB) memory
-				// overhead:
-				// new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
-				DatabaseReader reader = null;
-				try {
-					reader = new DatabaseReader.Builder(database).locales(List.of("zh-CN"))
-						.withCache(new CHMCache())
-						.build();
-				}
-				catch (IOException e) {
-					log.error("创建 IP 城市匹配 读取器 异常：", e);
-				}
-
-				if (reader != null) {
-
-					InetAddress ipAddress = null;
-					try {
-						ipAddress = InetAddress.getByName(host);
-					}
-					catch (UnknownHostException e) {
-						log.error("IP 城市匹配 解析地址 异常：", e);
-					}
-
-					if (ipAddress != null) {
-						CityResponse cityResponse = null;
-						try {
-							cityResponse = reader.city(ipAddress);
-						}
-						catch (IOException e) {
-							log.error("IP 城市匹配 IOException 异常：", e);
-						}
-						catch (GeoIp2Exception e) {
-							log.error("IP 城市匹配 GeoIp2Exception 异常：", e);
-						}
-
-						if (cityResponse != null) {
-							Continent continent = cityResponse.getContinent();
-							Country country = cityResponse.getCountry();
-							List<Subdivision> subdivisions = cityResponse.getSubdivisions();
-							City city = cityResponse.getCity();
-
-							responseVo.setContinentCode(continent.getCode());
-							responseVo.setContinentGeoNameId(continent.getGeoNameId());
-							responseVo.setContinentName(continent.getName());
-
-							responseVo.setCountryIsoCode(country.getIsoCode());
-							responseVo.setCountryGeoNameId(country.getGeoNameId());
-							responseVo.setCountryName(country.getName());
-
-							responseVo.setInEuropeanUnion(country.isInEuropeanUnion());
-
-							List<String> subdivisionIsoCodes = new ArrayList<>();
-							List<Long> subdivisionGeoNameIds = new ArrayList<>();
-							List<String> subdivisionNames = new ArrayList<>();
-							for (Subdivision subdivision : subdivisions) {
-								subdivisionIsoCodes.add(subdivision.getIsoCode());
-								subdivisionGeoNameIds.add(subdivision.getGeoNameId());
-								subdivisionNames.add(subdivision.getName());
-							}
-
-							responseVo.setSubdivisionIsoCodes(subdivisionIsoCodes);
-							responseVo.setSubdivisionGeoNameIds(subdivisionGeoNameIds);
-							responseVo.setSubdivisionNames(subdivisionNames);
-
-							responseVo.setCityGeoNameId(city.getGeoNameId());
-							responseVo.setCityName(city.getName());
-						}
-					}
-				}
-
-			}
-			else {
-				log.warn("虽然已开启 IP 城市匹配，但是 IP 城市匹配 数据库为空，无法使用 IP 城市匹配");
-			}
-		}
-
-		return responseVo;
+		return geoIp2Service.ip(host);
 	}
 
 }
