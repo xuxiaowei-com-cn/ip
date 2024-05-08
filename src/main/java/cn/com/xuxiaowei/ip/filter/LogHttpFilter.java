@@ -24,7 +24,7 @@ import java.io.IOException;
 @Slf4j
 @Setter
 @Component
-public class LogWebFilter extends HttpFilter implements Ordered {
+public class LogHttpFilter extends HttpFilter implements Ordered {
 
 	public static final int ORDERED = Ordered.HIGHEST_PRECEDENCE;
 
