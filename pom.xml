@@ -26,6 +26,7 @@
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <geoip2.version>4.2.0</geoip2.version>
+        <cxf.version>4.0.4</cxf.version>
         <spring-javaformat-maven-plugin.version>0.0.41</spring-javaformat-maven-plugin.version>
         <skipTests>true</skipTests>
     </properties>
@@ -51,6 +52,22 @@
             <groupId>com.maxmind.geoip2</groupId>
             <artifactId>geoip2</artifactId>
             <version>${geoip2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <version>${cxf.version}</version>
         </dependency>
 
         <dependency>
