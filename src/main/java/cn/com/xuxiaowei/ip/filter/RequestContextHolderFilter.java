@@ -25,7 +25,7 @@ import java.io.IOException;
 @Slf4j
 @Setter
 @Component
-public class RequestContextFilter extends HttpFilter implements Ordered {
+public class RequestContextHolderFilter extends HttpFilter implements Ordered {
 
 	public static final int ORDERED = Ordered.HIGHEST_PRECEDENCE + 10000;
 

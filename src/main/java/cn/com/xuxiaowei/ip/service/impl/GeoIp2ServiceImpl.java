@@ -1,6 +1,6 @@
 package cn.com.xuxiaowei.ip.service.impl;
 
-import cn.com.xuxiaowei.ip.filter.RequestContextFilter;
+import cn.com.xuxiaowei.ip.filter.RequestContextHolderFilter;
 import cn.com.xuxiaowei.ip.properties.IpProperties;
 import cn.com.xuxiaowei.ip.service.GeoIp2Service;
 import cn.com.xuxiaowei.ip.vo.ResponseVo;
@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author xuxiaowei
  * @since 0.0.1
- * @see RequestContextFilter
+ * @see RequestContextHolderFilter
  */
 @Slf4j
 @Service

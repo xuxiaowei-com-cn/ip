@@ -1,6 +1,6 @@
 package cn.com.xuxiaowei.ip.service.impl;
 
-import cn.com.xuxiaowei.ip.filter.RequestContextFilter;
+import cn.com.xuxiaowei.ip.filter.RequestContextHolderFilter;
 import cn.com.xuxiaowei.ip.service.HeaderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.jws.WebMethod;
@@ -20,7 +20,7 @@ import java.util.*;
  *
  * @author xuxiaowei
  * @since 0.0.1
- * @see RequestContextFilter
+ * @see RequestContextHolderFilter
  */
 @Service
 @WebService(serviceName = "headerService", targetNamespace = "https://ip.xuxiaowei.com.cn")
