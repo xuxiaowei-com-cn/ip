@@ -84,6 +84,10 @@ public class GeoIp2ServiceImpl implements GeoIp2Service {
 			host = request.getRemoteHost();
 		}
 
+		if (host != null) {
+			host = host.split(":")[0];
+		}
+
 		ResponseVo responseVo = new ResponseVo();
 
 		responseVo.setHost(host);
