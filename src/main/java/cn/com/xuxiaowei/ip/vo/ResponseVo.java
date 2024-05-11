@@ -1,7 +1,6 @@
 package cn.com.xuxiaowei.ip.vo;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -73,8 +72,9 @@ public class ResponseVo {
 	/**
 	 * 区域细分
 	 */
-	@JacksonXmlElementWrapper(localName = "subdivisions")
-	@JacksonXmlProperty(localName = "subdivision")
+	// @JacksonXmlElementWrapper(localName = "subdivisions")
+	// @JacksonXmlProperty(localName = "subdivision")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	private List<Subdivision> subdivisions;
 
 	/**
