@@ -238,10 +238,15 @@ public class GeoIp2ServiceImpl implements GeoIp2Service {
 
 		if (responseVo.getNetwork() == null) {
 			for (String intranet : INTRANETS) {
-				IpAddressMatcher ipAddressMatcher = new IpAddressMatcher(intranet);
-				if (ipAddressMatcher.matches(host)) {
-					responseVo.setNetwork(intranet);
-					break;
+				try {
+					IpAddressMatcher ipAddressMatcher = new IpAddressMatcher(intranet);
+					if (ipAddressMatcher.matches(host)) {
+						responseVo.setNetwork(intranet);
+						break;
+					}
+				}
+				catch (Exception e) {
+					log.error("host 内网识别异常：", e);
 				}
 			}
 		}
