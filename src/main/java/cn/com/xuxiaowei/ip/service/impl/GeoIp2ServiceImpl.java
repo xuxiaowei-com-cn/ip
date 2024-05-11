@@ -3,6 +3,7 @@ package cn.com.xuxiaowei.ip.service.impl;
 import cn.com.xuxiaowei.ip.filter.RequestContextHolderFilter;
 import cn.com.xuxiaowei.ip.properties.IpProperties;
 import cn.com.xuxiaowei.ip.service.GeoIp2Service;
+import cn.com.xuxiaowei.ip.utils.IpAddressMatcher;
 import cn.com.xuxiaowei.ip.vo.ResponseVo;
 import cn.com.xuxiaowei.ip.vo.Subdivision;
 import com.maxmind.db.CHMCache;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,6 +42,16 @@ import java.util.List;
 @Slf4j
 @Service
 public class GeoIp2ServiceImpl implements GeoIp2Service {
+
+	private static final List<String> INTRANETS = Arrays.asList(
+			// 10.0.0.0 到 10.255.255.255
+			"10.0.0.0/8",
+			// 172.16.0.0 到 172.31.255.255
+			"172.16.0.0/12",
+			// 192.168.0.0 到 192.168.255.255
+			"192.168.0.0/16",
+			// 127.0.0.1
+			"127.0.0.1/32");
 
 	private IpProperties ipProperties;
 
@@ -217,6 +229,16 @@ public class GeoIp2ServiceImpl implements GeoIp2Service {
 			}
 			else {
 				log.warn("虽然已开启 IP 城市匹配，但是 IP 城市匹配 数据库为空，无法使用 IP 城市匹配");
+			}
+		}
+
+		if (responseVo.getNetwork() == null) {
+			for (String intranet : INTRANETS) {
+				IpAddressMatcher ipAddressMatcher = new IpAddressMatcher(intranet);
+				if (ipAddressMatcher.matches(host)) {
+					responseVo.setNetwork(intranet);
+					break;
+				}
 			}
 		}
 
