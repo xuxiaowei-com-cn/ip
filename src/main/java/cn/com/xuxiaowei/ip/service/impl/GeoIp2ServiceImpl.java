@@ -4,6 +4,7 @@ import cn.com.xuxiaowei.ip.filter.RequestContextHolderFilter;
 import cn.com.xuxiaowei.ip.properties.IpProperties;
 import cn.com.xuxiaowei.ip.service.GeoIp2Service;
 import cn.com.xuxiaowei.ip.vo.ResponseVo;
+import cn.com.xuxiaowei.ip.vo.Subdivision;
 import com.maxmind.db.CHMCache;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.DatabaseReader;
@@ -13,7 +14,6 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.Subdivision;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,7 +185,6 @@ public class GeoIp2ServiceImpl implements GeoIp2Service {
 						if (cityResponse != null) {
 							Continent continent = cityResponse.getContinent();
 							Country country = cityResponse.getCountry();
-							List<Subdivision> subdivisions = cityResponse.getSubdivisions();
 							City city = cityResponse.getCity();
 
 							responseVo.setContinentCode(continent.getCode());
@@ -198,18 +197,16 @@ public class GeoIp2ServiceImpl implements GeoIp2Service {
 
 							responseVo.setInEuropeanUnion(country.isInEuropeanUnion());
 
-							List<String> subdivisionIsoCodes = new ArrayList<>();
-							List<Long> subdivisionGeoNameIds = new ArrayList<>();
-							List<String> subdivisionNames = new ArrayList<>();
-							for (Subdivision subdivision : subdivisions) {
-								subdivisionIsoCodes.add(subdivision.getIsoCode());
-								subdivisionGeoNameIds.add(subdivision.getGeoNameId());
-								subdivisionNames.add(subdivision.getName());
+							List<Subdivision> subdivisions = new ArrayList<>();
+							for (com.maxmind.geoip2.record.Subdivision subdivision : cityResponse.getSubdivisions()) {
+								Subdivision sub = new Subdivision();
+								subdivisions.add(sub);
+								sub.setIsoCode(subdivision.getIsoCode());
+								sub.setGeoNameId(subdivision.getGeoNameId());
+								sub.setName(subdivision.getName());
 							}
 
-							responseVo.setSubdivisionIsoCodes(subdivisionIsoCodes);
-							responseVo.setSubdivisionGeoNameIds(subdivisionGeoNameIds);
-							responseVo.setSubdivisionNames(subdivisionNames);
+							responseVo.setSubdivisions(subdivisions);
 
 							responseVo.setCityGeoNameId(city.getGeoNameId());
 							responseVo.setCityName(city.getName());

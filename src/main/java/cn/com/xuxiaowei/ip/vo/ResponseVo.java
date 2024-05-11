@@ -1,5 +1,7 @@
 package cn.com.xuxiaowei.ip.vo;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -69,19 +71,11 @@ public class ResponseVo {
 	private boolean inEuropeanUnion;
 
 	/**
-	 * 区域细分ISO代码
+	 * 区域细分
 	 */
-	private List<String> subdivisionIsoCodes;
-
-	/**
-	 * 区域细分地理ID
-	 */
-	private List<Long> subdivisionGeoNameIds;
-
-	/**
-	 * 区域细分地理名称
-	 */
-	private List<String> subdivisionNames;
+	@JacksonXmlElementWrapper(localName = "subdivisions")
+	@JacksonXmlProperty(localName = "subdivision")
+	private List<Subdivision> subdivisions;
 
 	/**
 	 * 城市区域代码
