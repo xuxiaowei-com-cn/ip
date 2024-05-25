@@ -3,11 +3,16 @@ pipeline {
     stages {
         stage('Build-Maven') {
             agent {
-                docker { image 'maven:3.6.3-openjdk-17' }
+                docker {
+                    image 'maven:3.6.3-openjdk-17'
+                    args '-v /root/.m2:/root/.m2'
+                }
             }
             steps {
                 sh 'env'
                 sh 'mvn --version'
+                sh 'ls -la'
+                sh 'mvn clean package -U -s settings.xml'
             }
         }
         stage('Build-Docker') {
@@ -19,6 +24,7 @@ pipeline {
             }
             steps {
                 sh 'env'
+                sh 'ls -la'
                 sh 'docker info'
             }
         }
