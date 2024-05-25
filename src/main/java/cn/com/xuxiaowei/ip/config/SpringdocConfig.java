@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 // @formatter:off
 @OpenAPIDefinition(info = @Info(title = "IP 地理信息",
-		description = "根据 IP 获取：大陆、国家、省、市、网络运营商、网段、是否为欧盟国家等。<br><br>" +
+		description = "<a target=\"_blank\" href=\"https://docs.xuxiaowei.cloud/spring-cloud-xuxiaowei/reference/maxmind-geoip.html\">MaxMind GeoIP 文档</a><br><br>" +
+				"根据 IP 获取：大陆、国家、省、市、网络运营商、网段、是否为欧盟国家等。<br><br>" +
 				"项目地址：<br>" +
 				"<a target=\"_blank\" href=\"https://jihulab.com/xuxiaowei-jihu/xuxiaowei-com-cn/ip\">极狐 GitLab</a><br>" +
 				"<a target=\"_blank\" href=\"https://gitee.com/xuxiaowei-com-cn/ip\">Gitee</a><br>" +
