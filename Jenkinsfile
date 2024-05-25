@@ -33,6 +33,9 @@ pipeline {
                 sh 'env'
                 sh 'ls -la'
                 sh 'docker info'
+                withCredentials([string(credentialsId: 'CI_REGISTRY_USER', variable: 'CI_REGISTRY_USER'), string(credentialsId: 'CI_REGISTRY_PASSWORD', variable: 'CI_REGISTRY_PASSWORD')]) {
+                    sh 'env'
+                }
                 sh 'docker build -t $CI_REGISTRY/$GROUP_ID/$ARTIFACT_ID:$VERSION-$BUILD_ID . --build-arg GROUP_ID=$GROUP_ID --build-arg ARTIFACT_ID=$ARTIFACT_ID --build-arg VERSION=$VERSION --build-arg CI_PIPELINE_URL=$BUILD_URL --build-arg CI_JOB_ID=$BUILD_ID --build-arg JAVA_OPTS="$CI_JAVA_OPTS" --build-arg APP_ARGS="$APP_ARGS"'
             }
         }
