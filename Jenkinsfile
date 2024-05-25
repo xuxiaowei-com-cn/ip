@@ -51,6 +51,7 @@ pipeline {
             steps {
                 sh 'env'
                 sh 'docker info'
+                sh 'export CI_REGISTRY_IMAGE=$CI_REGISTRY/$GROUP_ID/$ARTIFACT_ID CI_PIPELINE_ID=$BUILD_ID && docker compose up -d'
             }
         }
     }
