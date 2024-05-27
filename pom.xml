@@ -27,6 +27,7 @@
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <geoip2.version>4.2.0</geoip2.version>
         <cxf.version>4.0.4</cxf.version>
+        <jib-maven-plugin.version>3.4.2</jib-maven-plugin.version>
         <spring-javaformat-maven-plugin.version>0.0.41</spring-javaformat-maven-plugin.version>
         <skipTests>true</skipTests>
     </properties>
@@ -143,6 +144,27 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>
+                            registry.jihulab.com/xuxiaowei-jihu/xuxiaowei-cloud/spring-cloud-xuxiaowei/alibabadragonwell/dragonwell:17-anolis
+                        </image>
+                    </from>
+                    <to>
+                        <image>
+                            ${env.CI_REGISTRY_IMAGE}:${env.VERSION}-${env.CI_PIPELINE_ID}
+                        </image>
+                        <auth>
+                            <username>${env.CI_REGISTRY_USER}</username>
+                            <password>${env.CI_REGISTRY_PASSWORD}</password>
+                        </auth>
+                    </to>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
