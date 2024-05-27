@@ -31,10 +31,6 @@ build:
     - mvn -v
     - mvn clean compile jib:build -DskipTests=true -s settings.xml
     - free -h || cat /proc/meminfo
-  artifacts:
-    name: build
-    paths:
-      - target/*.jar
   cache:
     paths:
       - .m2/repository
