@@ -168,6 +168,9 @@
                             <password>${env.CI_REGISTRY_PASSWORD}</password>
                         </auth>
                     </to>
+                    <container>
+                        <environment>TZ="Asia/Shanghai",LANG="C.UTF-8"</environment>
+                    </container>
                 </configuration>
             </plugin>
             <plugin>
