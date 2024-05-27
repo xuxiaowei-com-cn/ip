@@ -169,7 +169,10 @@
                         </auth>
                     </to>
                     <container>
-                        <environment>TZ="Asia/Shanghai",LANG="C.UTF-8"</environment>
+                        <environment>
+                            <TZ>Asia/Shanghai</TZ>
+                            <LANG>C.UTF-8</LANG>
+                        </environment>
                     </container>
                 </configuration>
             </plugin>
