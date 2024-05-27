@@ -177,8 +177,8 @@
                             <VERSION>${project.version}</VERSION>
                             <CI_PIPELINE_URL>${env.CI_PIPELINE_URL}</CI_PIPELINE_URL>
                             <CI_JOB_ID>${env.CI_JOB_ID}</CI_JOB_ID>
-                            <JAVA_OPTS>${env.JAVA_OPTS}</JAVA_OPTS>
-                            <APP_ARGS>${env.APP_ARGS}</APP_ARGS>
+                            <JAVA_OPTS>${env.CI_JAVA_OPTS}</JAVA_OPTS>
+                            <!--<APP_ARGS>${env.APP_ARGS}</APP_ARGS>-->
                         </environment>
                         <jvmFlags>
                             <jvmFlag>$CI_JAVA_OPTS</jvmFlag>
