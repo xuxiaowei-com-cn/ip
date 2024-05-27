@@ -7,7 +7,7 @@ services:
       - -Xms512m
       - -Xmx1G
       - -cp
-      - @/app/jib-classpath-file
+      - "@/app/jib-classpath-file"
       - cn.com.xuxiaowei.ip.IpApplication
       - --author=xuxiaowei
     ports:
