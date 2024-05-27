@@ -181,8 +181,8 @@
                             <APP_ARGS>${env.APP_ARGS}</APP_ARGS>
                         </environment>
                         <jvmFlags>
-                            <jvmFlag>$JAVA_OPTS</jvmFlag>
-                            <jvmFlag>$APP_ARGS</jvmFlag>
+                            <jvmFlag>$CI_JAVA_OPTS</jvmFlag>
+                            <!--<jvmFlag>$APP_ARGS</jvmFlag>-->
                         </jvmFlags>
                     </container>
                 </configuration>
