@@ -5,7 +5,7 @@ pipeline {
         GROUP_ID = 'cn.com.xuxiaowei.ip'
         ARTIFACT_ID = 'ip'
         VERSION = '0.0.1-SNAPSHOT'
-        IP_JAVA_OPTS = '-Xms256m -Xmx512m'
+        CI_JAVA_OPTS = '-Xms256m -Xmx512m'
     }
     stages {
         stage('Build-Maven') {
@@ -37,7 +37,7 @@ pipeline {
                     sh 'env'
                     sh 'docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY'
                 }
-                sh 'docker build -t $CI_REGISTRY/$GROUP_ID/$ARTIFACT_ID:$VERSION-$BUILD_ID . --build-arg GROUP_ID=$GROUP_ID --build-arg ARTIFACT_ID=$ARTIFACT_ID --build-arg VERSION=$VERSION --build-arg CI_PIPELINE_URL=$BUILD_URL --build-arg CI_JOB_ID=$BUILD_ID --build-arg JAVA_OPTS="$IP_JAVA_OPTS" --build-arg APP_ARGS="$APP_ARGS"'
+                sh 'docker build -t $CI_REGISTRY/$GROUP_ID/$ARTIFACT_ID:$VERSION-$BUILD_ID . --build-arg GROUP_ID=$GROUP_ID --build-arg ARTIFACT_ID=$ARTIFACT_ID --build-arg VERSION=$VERSION --build-arg CI_PIPELINE_URL=$BUILD_URL --build-arg CI_JOB_ID=$BUILD_ID --build-arg JAVA_OPTS="$CI_JAVA_OPTS" --build-arg APP_ARGS="$APP_ARGS"'
                 sh 'docker push $CI_REGISTRY/$GROUP_ID/$ARTIFACT_ID:$VERSION-$BUILD_ID'
             }
         }

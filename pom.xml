@@ -177,12 +177,10 @@
                             <VERSION>${project.version}</VERSION>
                             <CI_PIPELINE_URL>${env.CI_PIPELINE_URL}</CI_PIPELINE_URL>
                             <CI_JOB_ID>${env.CI_JOB_ID}</CI_JOB_ID>
-                            <JAVA_OPTS>${env.IP_JAVA_OPTS}</JAVA_OPTS>
-                            <!--<APP_ARGS>${env.APP_ARGS}</APP_ARGS>-->
                         </environment>
                         <jvmFlags>
-                            <jvmFlag>$JAVA_OPTS</jvmFlag>
-                            <!--<jvmFlag>$APP_ARGS</jvmFlag>-->
+                            <jvmFlag>-Xms256m</jvmFlag>
+                            <jvmFlag>-Xmx512m</jvmFlag>
                         </jvmFlags>
                     </container>
                 </configuration>

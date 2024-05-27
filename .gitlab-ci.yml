@@ -7,7 +7,7 @@ variables:
   GROUP_ID: cn.com.xuxiaowei.ip
   ARTIFACT_ID: ip
   VERSION: 0.0.1-SNAPSHOT
-  IP_JAVA_OPTS: -Xms256m -Xmx512m
+  CI_JAVA_OPTS: -Xms256m -Xmx512m
 
 build:
   stage: build
