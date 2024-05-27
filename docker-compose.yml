@@ -2,6 +2,14 @@ services:
   ip:
     image: ${CI_REGISTRY_IMAGE}:${VERSION}-${CI_PIPELINE_ID}
     restart: always
+    command:
+      - java
+      - -Xms512m
+      - -Xmx1G
+      - -cp
+      - @/app/jib-classpath-file
+      - cn.com.xuxiaowei.ip.IpApplication
+      - --author=xuxiaowei
     ports:
       - ${IP_PORT:-61450}:${IP_PORT:-61450}
     volumes:
