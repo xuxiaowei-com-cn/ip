@@ -44,7 +44,7 @@ build:
 build:deploy:
   stage: build
   needs:
-    - job: build:docker
+    - job: build
   image: docker:cli
   variables:
     DOCKER_HOST: $DEPLOY_DOCKER_HOST
