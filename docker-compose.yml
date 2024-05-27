@@ -2,7 +2,7 @@ services:
   ip:
     image: ${CI_REGISTRY_IMAGE}:${VERSION}-${CI_PIPELINE_ID}
     restart: always
-    command:
+    entrypoint:
       - java
       - -Xms512m
       - -Xmx1G
