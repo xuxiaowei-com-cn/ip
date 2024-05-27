@@ -173,6 +173,9 @@
                             <TZ>Asia/Shanghai</TZ>
                             <LANG>C.UTF-8</LANG>
                         </environment>
+                        <jvmFlags>
+                            <jvmFlag>-Xms256m</jvmFlag>
+                        </jvmFlags>
                     </container>
                 </configuration>
             </plugin>
