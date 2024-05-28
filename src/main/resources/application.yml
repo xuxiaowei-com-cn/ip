@@ -1,5 +1,5 @@
 server:
-  port: 61452
+  port: ${IP_PORT:61450}
   forward-headers-strategy: NATIVE
   tomcat:
     # https://docs.spring.io/spring-boot/how-to/webserver.html#howto.webserver.use-behind-a-proxy-server.tomcat
