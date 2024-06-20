@@ -30,7 +30,7 @@ build:
   script:
     - free -h || cat /proc/meminfo
     - mvnd -v
-    - mvnd clean package -DskipTests=true -s settings.xml
+    - mvnd clean package -DskipTests=true -s settings.xml $MAVEN_OPTS
     - free -h || cat /proc/meminfo
   artifacts:
     name: build
