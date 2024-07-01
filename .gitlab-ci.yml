@@ -79,6 +79,8 @@ build:deploy:
   script:
     - docker info
     - docker compose up -d
+    - docker images | grep ip
+    - docker images | grep ip | awk '{print $3}' | xargs docker rmi || echo
   environment: production
   tags:
     - lighthouse-docker
