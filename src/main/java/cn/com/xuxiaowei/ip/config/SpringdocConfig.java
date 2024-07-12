@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 				"根据请求头中的 Accept 匹配到 application/json，将返回 json 类型的数据。<br>" +
 				"根据请求头中的 Accept 匹配到 application/xml，将返回 xml 类型的数据。<br>" +
 				"根据请求头中的 Accept 未匹配到时，将返回默认 json 类型的数据。",
-		version = "v0.0.1"))
+		version = "v0.0.2"))
 // @formatter:on
 public class SpringdocConfig {
 

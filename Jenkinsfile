@@ -4,7 +4,7 @@ pipeline {
         CI_REGISTRY = 'nexus.xuxiaowei.com.cn:48501'
         GROUP_ID = 'cn.com.xuxiaowei.ip'
         ARTIFACT_ID = 'ip'
-        VERSION = '0.0.1-SNAPSHOT'
+        VERSION = '0.0.2-SNAPSHOT'
         CI_JAVA_OPTS = '-Xms256m -Xmx512m'
     }
     stages {

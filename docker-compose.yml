@@ -1,6 +1,6 @@
 services:
   ip:
-    image: ${CI_REGISTRY_IMAGE}:${VERSION}-${CI_PIPELINE_ID}
+    image: registry.cn-qingdao.aliyuncs.com/xuxiaoweicomcn/ip:${VERSION}-${CI_PIPELINE_ID}
     restart: always
     ports:
       - ${IP_PORT:-61450}:${IP_PORT:-61450}

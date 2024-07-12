@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.com.xuxiaowei.ip</groupId>
     <artifactId>ip</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>ip</name>
     <description>IP</description>
     <url>https://github.com/xuxiaowei-com-cn/ip</url>

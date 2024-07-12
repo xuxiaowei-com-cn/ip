@@ -1,12 +1,14 @@
 stages:
   - build
+  - build-docker
+  - build-deploy
   - sync
 
 variables:
-  DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$VERSION-$CI_PIPELINE_ID
+  DOCKER_IMAGE_NAME: registry.cn-qingdao.aliyuncs.com/xuxiaoweicomcn/ip:$VERSION-$CI_PIPELINE_ID
   GROUP_ID: cn.com.xuxiaowei.ip
   ARTIFACT_ID: ip
-  VERSION: 0.0.1-SNAPSHOT
+  VERSION: 0.0.2-SNAPSHOT
   CI_JAVA_OPTS: -Xms256m -Xmx512m
 
 build:
@@ -27,10 +29,12 @@ build:
       --no-transfer-progress
       -DinstallAtEnd=true
       -DdeployAtEnd=true
+    SETTINGS_XML_PATH: settings.xml
   script:
+    - echo $SETTINGS_XML_PATH
     - free -h || cat /proc/meminfo
     - mvnd -v
-    - mvnd clean package -DskipTests=true -s settings.xml $MAVEN_OPTS
+    - mvnd clean package -DskipTests=true -s $SETTINGS_XML_PATH $MAVEN_OPTS
     - free -h || cat /proc/meminfo
   artifacts:
     name: build
@@ -39,23 +43,20 @@ build:
   cache:
     paths:
       - .m2/repository
-  tags:
-    - jihulab
 
 build:docker:
-  stage: build
+  stage: build-docker
   needs:
     - job: build
       artifacts: true
   image: registry.cn-qingdao.aliyuncs.com/xuxiaoweicomcn/docker:26.1.3-cli
-  services:
-    - name: registry.cn-qingdao.aliyuncs.com/xuxiaoweicomcn/docker:26.1.3-dind
-      alias: docker
   before_script:
+    - ls /run/docker.sock || echo "/run/docker.sock 不存在"
+    - echo $DOCKER_HOST
     - docker info
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u $ACR_REGISTRY_USER -p $ACR_REGISTRY_PASSWORD registry.cn-qingdao.aliyuncs.com
   script:
-    - ls target
+    - ls -l target
     - >-
       docker build --pull -t "$DOCKER_IMAGE_NAME" .
       --build-arg GROUP_ID=${GROUP_ID}
@@ -65,20 +66,22 @@ build:docker:
       --build-arg CI_JOB_ID=${CI_JOB_ID}
       --build-arg JAVA_OPTS="${CI_JAVA_OPTS}"
       --build-arg APP_ARGS=${APP_ARGS}
-    - docker images
+    - docker images | grep ip
     - docker push "$DOCKER_IMAGE_NAME"
-  tags:
-    - jihulab
 
 build:deploy:
-  stage: build
+  stage: build-deploy
   needs:
     - job: build:docker
   image: registry.cn-qingdao.aliyuncs.com/xuxiaoweicomcn/docker:26.1.3-cli
   variables:
     DOCKER_HOST: $DEPLOY_DOCKER_HOST
-  script:
+  before_script:
+    - ls /run/docker.sock || echo "/run/docker.sock 不存在"
+    - echo $DOCKER_HOST
     - docker info
+    - docker login -u $ACR_REGISTRY_USER -p $ACR_REGISTRY_PASSWORD registry.cn-qingdao.aliyuncs.com
+  script:
     - docker compose up -d
     - docker images | grep ip
     - docker images | grep ip | awk '{print $3}' | xargs docker rmi || echo
