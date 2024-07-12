@@ -68,6 +68,8 @@ build:docker:
       --build-arg APP_ARGS=${APP_ARGS}
     - docker images | grep ip
     - docker push "$DOCKER_IMAGE_NAME"
+    - docker images | grep ip | awk '{print $3}' | xargs docker rmi || echo
+    - docker images | grep ip
 
 build:deploy:
   stage: build-deploy
@@ -83,6 +85,7 @@ build:deploy:
     - docker compose up -d
     - docker images | grep ip
     - docker images | grep ip | awk '{print $3}' | xargs docker rmi || echo
+    - docker images | grep ip
   environment: production
   tags:
     - lighthouse-docker
