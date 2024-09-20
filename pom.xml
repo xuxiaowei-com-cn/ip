@@ -27,7 +27,7 @@
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <geoip2.version>4.2.0</geoip2.version>
         <cxf.version>4.0.5</cxf.version>
-        <spring-javaformat-maven-plugin.version>0.0.42</spring-javaformat-maven-plugin.version>
+        <spring-javaformat-maven-plugin.version>0.0.43</spring-javaformat-maven-plugin.version>
         <skipTests>true</skipTests>
     </properties>
     <dependencies>
