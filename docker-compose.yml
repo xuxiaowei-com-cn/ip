@@ -15,4 +15,5 @@ services:
       - IP_CITY_DATABASE=${IP_CITY_DATABASE:-}
       - IP_CONTENT_NEGOTIATION=${IP_CONTENT_NEGOTIATION:-false}
       - APP_ARGS=${IP_APP_ARGS:-}
+      - JAVA_OPTS=${JAVA_OPTS:--Xms128m -Xmx256m}
     container_name: ip
