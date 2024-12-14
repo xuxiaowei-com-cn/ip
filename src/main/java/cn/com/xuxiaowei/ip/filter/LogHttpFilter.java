@@ -39,7 +39,7 @@ public class LogHttpFilter extends HttpFilter implements Ordered {
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		String id = RandomStringUtils.randomAlphanumeric(8);
+		String id = RandomStringUtils.secure().nextAlphanumeric(8);
 		String uri = request.getRequestURI();
 
 		String remoteHost = request.getRemoteHost();
