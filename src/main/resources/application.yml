@@ -1,13 +1,13 @@
 server:
   port: ${IP_PORT:61450}
   forward-headers-strategy: NATIVE
-  tomcat:
-    # https://docs.spring.io/spring-boot/how-to/webserver.html#howto.webserver.use-behind-a-proxy-server.tomcat
-    remoteip:
-      # 从中提取远程IP的HTTP标头的名称。 例如，`X-Forwarded-For`、`X-Real-IP`。
-      remote-ip-header: X-Forwarded-For
-      # 用于覆盖原始端口值的HTTP标头的名称。
-      port-header: X-Forwarded-Proto
+  # https://docs.spring.io/spring-boot/how-to/webserver.html#howto.webserver.use-behind-a-proxy-server.tomcat
+  #tomcat:
+  #  remoteip:
+  #    # 从中提取远程IP的HTTP标头的名称。 例如，`X-Forwarded-For`、`X-Real-IP`。
+  #    remote-ip-header: X-Forwarded-For
+  #    # 用于覆盖原始端口值的HTTP标头的名称。
+  #    port-header: X-Forwarded-Proto
   compression:
     # 开启压缩
     enabled: true
